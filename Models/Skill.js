@@ -1,11 +1,11 @@
-const mongoose=require("mongoose")
-const SKills = mongoose.Schema;
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const ObjectId = Schema.Types.ObjectId;
-const SkillsSchema = new Skills({
-  id: ObjectId,
-  Skills:{type: String,required:true},
-  level:{type:String,require:true}
 
+const SkillSchema = new Schema({
+  skills: { type: String, required: true },
+  level: { type: String, required: true }
 });
-module.exports=mongoose.model(SKills,SkillsSchema)
+
+const Skill = mongoose.model('Skill', SkillSchema);
+
+module.exports = { Skill };

@@ -1,17 +1,17 @@
-const mongoose=require("mongoose")
-const Contact=mongoose.Schema
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const ObjectId = Schema.Types.ObjectId;
-const Contacts=mongoose.Schema;
-const ContactsSchema=new Contact({
-    id:ObjectId,
-    name:{type:String, required:true,},
-    email:{type:String,required:true},
-    message:{type:String,required:true},
-    Status:{type:String,rquired:true}, 
-    match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"],
 
+const ContactSchema = new Schema({
+  name: { type: String, required: true },
+  email: {
+    type: String,
+    required: true,
+    match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"]
+  },
+  message: { type: String, required: true },
+  status: { type: String, required: true }
+});
 
-})
-module.exports=mongoose.model(Contacts,ContactsSchema)
+const Contact = mongoose.model('Contact', ContactSchema);
 
+module.exports = { Contact };
