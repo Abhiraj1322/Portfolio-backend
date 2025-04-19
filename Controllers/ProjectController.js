@@ -1,69 +1,79 @@
-const {Project}=require("../Models/Project")
+const { Project } = require("../Models/Project");
 
-const createproject=async(req,res)=>{
-    try{
-    const{title,description,technologies,repo_link,live_link,status}=req.body
-    const newproject=new Project({
-  title,
-  description,
-  technologies,
-  repo_link,
-  live_link,
-  status
-    })
-    if(!createproject){
-        res.status(400).json({message:" project not found" })
-    }
-    const saveproject=newproject.save();
-    res.status(201).json({message:"Project added successfully"})
-    }
-    catch(eror){
-     res.status(500).json({message:"Blog"})
-    }
-}
-const updateproject=async(req,res)=>{
-  try{
-   const{id}=req.params
-   const{title,description,technologies,repo_link,live_link,status}=req.body
-   const updatedproject=new Project.findByIdAndUpdate(
-    id,
-    {
-      title,description,technologies,repo_link,live_link,status
-    },{new:true}
-   )
-   if(!updateproject){
-    return res.status(404).json({message:"project not updated"})
-  }
-  return res.status(200).json({message:"Contact updated"},updatedproject)
-  }
-  catch(eror){
-return res.status(500).json({message: "server eror",eror})
-  }
-}
-const deleteproject=async(req,res)=>{
-  try{
-const {id}=req.params
-const {title,description,technologies,repo_link,live_link,status}=req.body
-const projectdeleted=await Project.findByIdAndDelete(id)
-if(!deleteproject){
-  return res.status(404).json({message:"project not deleted"})
-}
-return res.status(200).json({message:"Project delted"}),
-projectdeleted
+// CREATE PROJECT
+const createproject = async (req, res) => {
+  try {
+    const { title, description, technologies, repo_link, live_link, status } = req.body;
 
-}
-  catch(eror){
-  return res.status(500).json({message:"server eror"})
-  }
-}
-const getallprojects=async(req,res)=>{
-  try{
-    const projects=await Project.find()
-    if(!getallprojects){
-      res.status(404).json({message:"Eror in getting all projects"})
+    const newproject = new Project({
+      title,
+      description,
+      technologies,
+      repo_link,
+      live_link,
+      status,
+    });
+
+    const saveproject = await newproject.save();
+
+    if (!saveproject) {
+      return res.status(400).json({ message: "Failed to create project" });
     }
+
+    res.status(201).json({ message: "Project added successfully", saveproject });
+  } catch (error) {
+    res.status(500).json({ message: "Error while adding project", error });
   }
-  catch(err){
-  res.status(500).json({message:"eror in adding contact"},err)
+};
+
+// UPDATE PROJECT
+const updateproject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, technologies, repo_link, live_link, status } = req.body;
+
+    const updatedproject = await Project.findByIdAndUpdate(
+      id,
+      { title, description, technologies, repo_link, live_link, status },
+      { new: true }
+    );
+
+    if (!updatedproject) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    return res.status(200).json({ message: "Project updated successfully", updatedproject });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error while updating project", error });
   }
-}
+};
+
+// DELETE PROJECT
+const deleteproject = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const projectdeleted = await Project.findByIdAndDelete(id);
+
+    if (!projectdeleted) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    return res.status(200).json({ message: "Project deleted successfully", projectdeleted });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error while deleting project", error });
+  }
+};
+
+// GET ALL PROJECTS
+const getallprojects = async (req, res) => {
+  try {
+    const projects = await Project.find();
+
+    return res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: "Error while fetching projects", error });
+  }
+};
+
+module.exports = { createproject, updateproject, deleteproject, getallprojects };
