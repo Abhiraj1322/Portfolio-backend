@@ -1,9 +1,10 @@
     const express=require("express")
-    const router= express.Router()
-    const { createcontact, getallcontacts, updatecontact, deletecontact }=require("../Controllers/ContactController")
+    const Router= express.Router()
+    const { createcontact, getallcontacts, updatecontact, deletecontact }=require("../Controllers/contactController")
 
-    router.post("/",createcontact);
-    router.get("/",getallcontacts);
-    router.put("/:id",updatecontact);
-    router.delete("/:id",deletecontact);
+    Router.post("/",createcontact);
+    Router.get("/",getallcontacts);
+    Router.put("/:id",updatecontact);
+    Router.delete("/:id",deletecontact);
     
+    module.exports=Router

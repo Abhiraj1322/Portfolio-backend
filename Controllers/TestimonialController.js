@@ -1,4 +1,4 @@
-const { Testimonial } = require("../Models/Testimonial");
+const { Testimonial } = require("../Models/testimonial");
 
 
 const createTestimonial = async (req, res) => {
