@@ -65,5 +65,83 @@ const deleteskill = async (req, res) => {
     return res.status(500).json({ message: "Server error while deleting skill", error });
   }
 };
+///Admin panel controller
+//show all skills in admin panel
 
-module.exports = { createskill, getallskills, updateskill, deleteskill };
+const showSkillsAdmin=async(req,res)=>{
+  try{
+    const skills=await Skill.find();
+    res.render("admin/skill-view",{skills})
+  }catch(error){
+    console.error("Eror loeading skill admin page",error)
+    res.status(500).send("Eror loading skill admin page")
+  }
+}
+//Show add skill form 
+const showAddSkillsform=(req,res)=>{
+  res.render("admin/skill-new")
+}
+//handle addskiles
+const handleAddSkillForm=async(req,res)=>{
+  try{
+    const { skills, level } = req.body;
+    await Skill.create( { skills, level });
+    res.redirect("/api/skills/admin/view")
+  }
+  catch(error){
+  console.error("Eror adding project")
+  }
+} 
+// Show edit project form (admin)
+const showEditSkillForm = async (req, res) => {
+  try {
+    const skill = await Skill.findById(req.params.id);
+    if (!skill) return res.status(404).send("Project not found");
+    res.render("admin/skill-edit", { skill });
+  } catch (error) {
+    console.error("Error loading edit form:", error);
+    res.status(500).send("Error loading edit form");
+  }
+};
+//handle edit 
+
+const handleEditSkillForm = async (req, res) => {
+  try {
+    const { skills, level } = req.body;
+    const skillid = req.params.id;
+
+    if (!skills || !level) {
+      return res.status(400).send("Skills and level are required.");
+    }
+
+    const updatedSkill = await Skill.findByIdAndUpdate(
+      skillid,
+      { skills, level },
+      { new: true }
+    );
+
+    if (!updatedSkill) {
+      return res.status(404).send("Skill not found.");
+    }
+
+    res.redirect("/api/skills/admin/view");
+  } catch (error) {
+    console.error("Error updating skill:", error);
+    res.status(500).send("Error updating skill.");
+  }
+};
+
+
+const handleDeleteSkill = async (req, res) => {
+  try {
+    await Skill.findByIdAndDelete(req.params.id);
+    res.redirect("/api/skills/admin/view");
+  } catch (error) {
+    console.error("Error deleting skill:", error);
+    res.status(500).send("Error deleting skill");
+  }
+};
+
+
+
+module.exports = { createskill, getallskills, updateskill, deleteskill,handleEditSkillForm,showAddSkillsform,handleAddSkillForm,showEditSkillForm,handleEditSkillForm,showSkillsAdmin,handleDeleteSkill };

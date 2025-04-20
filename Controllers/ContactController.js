@@ -1,4 +1,4 @@
-const { Contact } = require("../Models/contact");
+const { Contact } = require("../Models/Contact");
 
 const createcontact = async (req, res) => {
   try {
@@ -71,5 +71,11 @@ const deletecontact = async (req, res) => {
     return res.status(500).json({ message: "Server error", error });
   }
 };
+
+
+////Admin view/////controllers
+ 
+
+
 
 module.exports = { createcontact, getallcontacts, updatecontact, deletecontact };
