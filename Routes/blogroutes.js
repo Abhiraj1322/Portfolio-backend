@@ -12,7 +12,7 @@ const{
   showEditBlogForm,
   handleEditBlogForm,
   handleDeleteBlog
-} = require("../Controllers/blogController");
+} = require("../Controllers/BlogController");
 
 Router.post("/", createblog);
 Router.get("/", getallBlogs);
