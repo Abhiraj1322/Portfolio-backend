@@ -1,6 +1,6 @@
 const express=require("express")
 const Router=express.Router()
-const { createskill, getallskills, updateskill, deleteskill,showAddSkillsform,handleAddSkillForm,showEditSkillForm,handleEditSkillForm,showSkillsAdmin,handleDeleteSkill }=require("../Controllers/skillcontroller");
+const { createskill, getallskills, updateskill, deleteskill,showAddSkillsform,handleAddSkillForm,showEditSkillForm,handleEditSkillForm,showSkillsAdmin,handleDeleteSkill }=require("../Controllers/skillController");
 
 
 Router.post("/",createskill);
