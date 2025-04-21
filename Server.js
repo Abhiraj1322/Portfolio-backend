@@ -22,7 +22,6 @@ mongoose.connect(process.env.MONGO_URI)
   // api Routes
 
   app.use("/api/blogs", require("./Routes/blogroutes"));
-  app.use("/api/contacts", require("./Routes/contactroutes"));
   app.use("/api/projects", require("./Routes/projectroutes"));
   app.use("/api/skills", require("./Routes/skillroutes"));
   app.use("/api/testimonials", require("./Routes/testimonialroutes"));
